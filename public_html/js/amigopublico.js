@@ -34,7 +34,7 @@ function AmigoPublico() {
         return layers;
     };
 
-    var getLocation = function () {
+     var getLocation = function () {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(geoSuccess);
         }
@@ -52,7 +52,7 @@ function AmigoPublico() {
                 zoom: 16
             })
         });
-    };
+    };    
     getLocation();
 };
 
