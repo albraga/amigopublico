@@ -1,4 +1,4 @@
-function AmigoPublico() {
+var AmigoPublico = (function() {
 
     var createPOI = function (longi, lat, iconSRC) {
         var iconFeature = new ol.Feature({
@@ -27,14 +27,14 @@ function AmigoPublico() {
     var createNeighbourhood = function (longi, lat) {
         var layers = [];
         layers[0] = new ol.layer.Tile({
-                    source: new ol.source.MapQuest({layer: 'osm'})
-                });
+            source: new ol.source.MapQuest({layer: 'osm'})
+        });
         layers[1] = createPOI(longi, lat, 'img/user.png');
         layers[2] = createPOI(longi + 0.01, lat, 'img/school.png');
         return layers;
     };
 
-     var getLocation = function () {
+    var getLocation = function () {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(geoSuccess);
         }
@@ -52,17 +52,15 @@ function AmigoPublico() {
                 zoom: 16
             })
         });
-    };    
-    getLocation();
-};
-
-var app = {
-    initialize: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-        this.onDeviceReady(); //uncomment for testing in Chrome browser
-    },
-    onDeviceReady: function() {
-	new AmigoPublico();
-    }
-};
-app.initialize();
+    };
+    var app = {
+        initialize: function () {
+            document.addEventListener('deviceready', this.onDeviceReady, false);
+            this.onDeviceReady(); //uncomment for testing in Chrome browser
+        },
+        onDeviceReady: function () {
+            getLocation();
+        }
+    };
+    app.initialize();
+})();
