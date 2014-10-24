@@ -1,9 +1,9 @@
-var AmigoPublico = (function() {
+var Amigo = (function() {
     
-    var longi = 0.0;
-    var lat = 0.0;
+    var longi;
+    var lat;
     
-    var initLocation = function () {
+    var init = function () {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(setPosition);
         }
@@ -67,8 +67,17 @@ var AmigoPublico = (function() {
             this.onDeviceReady(); //uncomment for testing in Chrome browser
         },
         onDeviceReady: function () {
-            initLocation();
+            init();
         }
     };
     app.initialize();
+    
+    var alerta = function() {
+        alert('teste');
+    };
+    
+    return {
+        alerta: alerta
+    };
+    
 })();
