@@ -1,4 +1,21 @@
 var AmigoPublico = (function() {
+    
+    var longi = 0.0;
+    var lat = 0.0;
+    
+    var initLocation = function () {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(setPosition);
+        }
+    };
+    
+    var setPosition = function (position) {
+        longi = position.coords.longitude;
+        lat = position.coords.latitude;
+        createMap();
+    };
+    
+    
 
     var createPOI = function (longi, lat, iconSRC) {
         var iconFeature = new ol.Feature({
@@ -24,7 +41,7 @@ var AmigoPublico = (function() {
         return vectorLayer;
     };
 
-    var createNeighbourhood = function (longi, lat) {
+    var createNeighbourhood = function () {
         var layers = [];
         layers[0] = new ol.layer.Tile({
             source: new ol.source.MapQuest({layer: 'osm'})
@@ -34,19 +51,10 @@ var AmigoPublico = (function() {
         return layers;
     };
 
-    var getLocation = function () {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(geoSuccess);
-        }
-    };
-
-    var geoSuccess = function (position) {
-        var longi = position.coords.longitude;
-        var lat = position.coords.latitude;
-        var layersN = createNeighbourhood(longi, lat);
+    var createMap = function () {
         var map = new ol.Map({
             target: 'map',
-            layers: layersN,
+            layers: createNeighbourhood(),
             view: new ol.View({
                 center: ol.proj.transform([longi, lat], 'EPSG:4326', 'EPSG:900913'),
                 zoom: 16
@@ -59,7 +67,7 @@ var AmigoPublico = (function() {
             this.onDeviceReady(); //uncomment for testing in Chrome browser
         },
         onDeviceReady: function () {
-            getLocation();
+            initLocation();
         }
     };
     app.initialize();
