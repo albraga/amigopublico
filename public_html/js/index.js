@@ -1,4 +1,4 @@
-var Amigo = (function () {
+var AmigoPublico = (function () {
 
     var longi;
     var lat;
@@ -17,10 +17,10 @@ var Amigo = (function () {
 
 
 
-    var createPOI = function (longi, lat, iconSRC) {
+    var createPOI = function (neym, longi, lat, iconSRC) {
         var iconFeature = new ol.Feature({
             geometry: new ol.geom.Point(ol.proj.transform([longi, lat], 'EPSG:4326', 'EPSG:3857')),
-            name: 'nome'
+            numa: neym
         });
         var iconStyle = new ol.style.Style({
             image: new ol.style.Icon(({
@@ -46,8 +46,8 @@ var Amigo = (function () {
         layers[0] = new ol.layer.Tile({
             source: new ol.source.MapQuest({layer: 'osm'})
         });
-        layers[1] = createPOI(longi, lat, 'img/user.png');
-        layers[2] = createPOI(longi + 0.01, lat, 'img/school.png');
+        layers[1] = createPOI('usuario', longi, lat, 'img/user.png');
+        layers[2] = createPOI('escola', longi + 0.01, lat, 'img/school.png');
         return layers;
     };
 
@@ -60,6 +60,16 @@ var Amigo = (function () {
                 zoom: 16
             })
         });
+        map.on('click', function (evt) {
+            var feature = map.forEachFeatureAtPixel(evt.pixel,
+                    function (feature, layer) {
+                        return feature;
+                    });
+            if (feature) {
+                alert(feature.get('numa'));
+            }
+        });
+
     };
     var app = {
         initialize: function () {
