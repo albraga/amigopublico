@@ -70,7 +70,7 @@ var Amigo = (function () {
             init();
             setTimeout(function () {
                 $('#map').toggle();
-            }, 1000);
+            }, 2000);
         }
     };
     app.initialize();
