@@ -1,21 +1,21 @@
-var Amigo = (function() {
-    
+var Amigo = (function () {
+
     var longi;
     var lat;
-    
+
     var init = function () {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(setPosition);
         }
     };
-    
+
     var setPosition = function (position) {
         longi = position.coords.longitude;
         lat = position.coords.latitude;
         createMap();
     };
-    
-    
+
+
 
     var createPOI = function (longi, lat, iconSRC) {
         var iconFeature = new ol.Feature({
@@ -68,16 +68,21 @@ var Amigo = (function() {
         },
         onDeviceReady: function () {
             init();
+            setTimeout(function () {
+                $('#map').toggle();
+            }, 1000);
         }
     };
     app.initialize();
-    
-    var alerta = function() {
+
+    var alerta = function () {
         alert('teste');
     };
-    
+
     return {
         alerta: alerta
     };
-    
+
 })();
+
+
