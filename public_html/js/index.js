@@ -2,6 +2,14 @@ var AmigoPublico = (function () {
 
     var longi;
     var lat;
+    function Endereco(logradouro, numero, bairro, cidade, estado, cep) {
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.cep = cep;       
+    }
     function ServicoPublico(id, titulo, descricao) {
         this.id = id;
         this.titulo = titulo;
@@ -22,10 +30,11 @@ var AmigoPublico = (function () {
 
 
 
-    var createPOI = function (servicoPublico, longi, lat, iconSRC) {
+    var createPOI = function (servicoPublico, endereco, longi, lat, iconSRC) {
         var iconFeature = new ol.Feature({
             geometry: new ol.geom.Point(ol.proj.transform([longi, lat], 'EPSG:4326', 'EPSG:3857')),
-            id: servicoPublico.id
+            id: servicoPublico.id,
+            logradouro: endereco.logradouro
         });
         var iconStyle = new ol.style.Style({
             image: new ol.style.Icon(({
@@ -51,8 +60,9 @@ var AmigoPublico = (function () {
         layers[0] = new ol.layer.Tile({
             source: new ol.source.MapQuest({layer: 'osm'})
         });
-        layers[1] = createPOI(new ServicoPublico(1,'um','umm'), longi, lat, 'img/user.png');
-        layers[2] = createPOI(new ServicoPublico(2,'dois','doiss'), longi + 0.01, lat, 'img/school.png');
+        var endereco = new Endereco('logra',null,null,null,null,null);
+        layers[1] = createPOI(new ServicoPublico(0,'usuario',''), endereco, longi, lat, 'img/user.png');
+        layers[2] = createPOI(new ServicoPublico(1,'dois','doiss'), endereco, longi + 0.01, lat, 'img/school.png');
         return layers;
     };
 
@@ -71,7 +81,7 @@ var AmigoPublico = (function () {
                         return feature;
                     });
             if (feature) {
-                alert(feature.get('id'));
+                alert(feature.get('logradouro'));
             }
         });
     };
@@ -82,9 +92,9 @@ var AmigoPublico = (function () {
         },
         onDeviceReady: function () {
             init();
-            setTimeout(function () {
-                $('#map').toggle();
-            }, 2000);
+//            setTimeout(function () {
+//                $('#map').toggle();
+//            }, 2000);
         }
     };
     app.initialize();
