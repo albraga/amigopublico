@@ -29,8 +29,6 @@ var AmigoPublico = (function () {
         createMap();
     };
 
-
-
     var createPOI = function (servicoPublico, longi, lat, iconSRC) {
         var iconFeature = new ol.Feature({
             geometry: new ol.geom.Point(ol.proj.transform([longi, lat], 'EPSG:4326', 'EPSG:3857')),
