@@ -93,9 +93,9 @@ var AmigoPublico = (function () {
         },
         onDeviceReady: function () {
             init();
-//            setTimeout(function () {
-//                $('#map').toggle();
-//            }, 2000);
+            setTimeout(function () {
+                $('#map').toggle();
+            }, 2000);
         }
     };
     app.initialize();
