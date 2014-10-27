@@ -10,10 +10,11 @@ var AmigoPublico = (function () {
         this.estado = estado;
         this.cep = cep;       
     }
-    function ServicoPublico(id, titulo, descricao) {
+    function ServicoPublico(id, titulo, descricao, endereco) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
+        this.endereco = endereco;
     };
 
     var init = function () {
@@ -30,11 +31,11 @@ var AmigoPublico = (function () {
 
 
 
-    var createPOI = function (servicoPublico, endereco, longi, lat, iconSRC) {
+    var createPOI = function (servicoPublico, longi, lat, iconSRC) {
         var iconFeature = new ol.Feature({
             geometry: new ol.geom.Point(ol.proj.transform([longi, lat], 'EPSG:4326', 'EPSG:3857')),
             id: servicoPublico.id,
-            logradouro: endereco.logradouro
+            logradouro: servicoPublico.endereco.logradouro
         });
         var iconStyle = new ol.style.Style({
             image: new ol.style.Icon(({
@@ -61,8 +62,8 @@ var AmigoPublico = (function () {
             source: new ol.source.MapQuest({layer: 'osm'})
         });
         var endereco = new Endereco('logra',null,null,null,null,null);
-        layers[1] = createPOI(new ServicoPublico(0,'usuario',''), endereco, longi, lat, 'img/user.png');
-        layers[2] = createPOI(new ServicoPublico(1,'dois','doiss'), endereco, longi + 0.01, lat, 'img/school.png');
+        layers[1] = createPOI(new ServicoPublico(0,'usuario','', endereco), longi, lat, 'img/user.png');
+        layers[2] = createPOI(new ServicoPublico(1,'dois','doiss', endereco), longi + 0.01, lat, 'img/school.png');
         return layers;
     };
 
